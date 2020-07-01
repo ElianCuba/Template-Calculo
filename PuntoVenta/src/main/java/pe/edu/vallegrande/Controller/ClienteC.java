@@ -8,7 +8,11 @@ package pe.edu.vallegrande.Controller;
 import javax.inject.Named;
 import javax.enterprise.context.SessionScoped;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
+import javax.annotation.PostConstruct;
+import javax.faces.application.FacesMessage;
+import javax.faces.context.FacesContext;
 import pe.edu.vallegrande.Dao.ClienteImpl;
 import pe.edu.vallegrande.Model.Cliente;
 
@@ -20,105 +24,101 @@ import pe.edu.vallegrande.Model.Cliente;
 @SessionScoped
 public class ClienteC implements Serializable {
 
-    /**
-     * Creates a new instance of ClienteC
-     */
-    private Cliente modelo;
-    private ClienteImpl dao;
-    private List<Cliente> listaCliente;
-    private Cliente selectedClient;
+    Cliente cliente;
+    ClienteImpl daoCliente;
+    List<Cliente> listCliente;
+    List<Cliente> filteredCliente;
 
     public ClienteC() {
-        dao = new ClienteImpl();
-        modelo = new Cliente();
-        //daoBuscar = new AutoCompleteImpl();
+        cliente = new Cliente();
+        daoCliente = new ClienteImpl();
+        listCliente = new ArrayList();
     }
 
-    public void registrar() throws Exception {
+    @PostConstruct
+    public void inicio() {
         try {
-            dao.registrar(modelo);
-            limpiar();
-            listaCliente = null;
-            System.out.println("Registro, completo...");
+            listar();
         } catch (Exception e) {
-            System.out.println("No se pudo realizar el Registro...");
-            throw e;
+            System.out.println("Error al listar " + e.getMessage());
         }
     }
 
-    public void modificar() throws Exception {
+    public void guardar() {
         try {
-            dao.modificar(selectedClient);
-            listaCliente = null;
-            limpiar();
-            System.out.println("Actualizacion, completa...");
-        } catch (Exception e) {
-            System.out.println("No se pudo Actualizar el Registro...");
-            throw e;
-        }
-    }
-public void eliminar() throws Exception {
-        try {
-            dao.eliminar(selectedClient);
-            limpiar();
-            listaCliente = null;
-            System.out.println("Eliminacion, completado...");
+            daoCliente.registrar(cliente);
+            FacesContext.getCurrentInstance().addMessage(null,
+                    new FacesMessage(FacesMessage.SEVERITY_INFO, "Registro", "Ingresado con éxito"));
             limpiar();
         } catch (Exception e) {
-            System.out.println("Falló eliminacion ...");
-            throw e;
+            System.out.println("Error al guardarC " + e.getMessage());
         }
     }
-    
-    public void limpiar() throws Exception {
+
+    public void actualizar() {
         try {
-            modelo = new Cliente();
+            daoCliente.modificar(cliente);
+            FacesContext.getCurrentInstance().addMessage(null,
+                    new FacesMessage(FacesMessage.SEVERITY_INFO, "Actualización", "Se actualizo con éxito"));
         } catch (Exception e) {
-            e.getMessage();
+            System.out.println("Error al actualizarC " + e.getMessage());
         }
     }
-    
+
+    public void eliminar(Cliente cliente) {
+        try {
+            daoCliente.eliminar(cliente);
+            FacesContext.getCurrentInstance().addMessage(null,
+                    new FacesMessage(FacesMessage.SEVERITY_INFO, "Eliminado", "Se eliminó con éxito"));
+            listar();
+        } catch (Exception e) {
+            System.out.println("Error al eliminarC " + e.getMessage());
+        }
+    }
+
+    public void limpiar() {
+        cliente = new Cliente();
+    }
+
     public void listar() {
         try {
-
-            listaCliente = dao.listar();
-
+            listCliente = daoCliente.listar();
         } catch (Exception e) {
-            System.out.println("Error al listar" + e);
+            System.out.println("Error al  listar");
         }
-
     }
 
-    public Cliente getModelo() {
-        return modelo;
+    public Cliente getCliente() {
+        return cliente;
     }
 
-    public void setModelo(Cliente modelo) {
-        this.modelo = modelo;
+    public void setCliente(Cliente cliente) {
+        this.cliente = cliente;
     }
 
-    public ClienteImpl getDao() {
-        return dao;
+    public ClienteImpl getDaoCliente() {
+        return daoCliente;
     }
 
-    public void setDao(ClienteImpl dao) {
-        this.dao = dao;
+    public void setDaoCliente(ClienteImpl daoCliente) {
+        this.daoCliente = daoCliente;
     }
 
-    public List<Cliente> getListaCliente() {
-        return listaCliente;
+    public List<Cliente> getListCliente() {
+        return listCliente;
     }
 
-    public void setListaCliente(List<Cliente> listaCliente) {
-        this.listaCliente = listaCliente;
+    public void setListCliente(List<Cliente> listCliente) {
+        this.listCliente = listCliente;
     }
 
-    public Cliente getSelectedClient() {
-        return selectedClient;
+    public List<Cliente> getFilteredCliente() {
+        return filteredCliente;
     }
 
-    public void setSelectedClient(Cliente selectedClient) {
-        this.selectedClient = selectedClient;
+    public void setFilteredCliente(List<Cliente> filteredCliente) {
+        this.filteredCliente = filteredCliente;
     }
-
+    
+    
 }

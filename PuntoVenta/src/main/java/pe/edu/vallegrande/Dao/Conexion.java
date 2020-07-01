@@ -5,6 +5,7 @@
  */
 package pe.edu.vallegrande.Dao;
 
+import java.io.IOException;
 import java.io.InputStream;
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -15,9 +16,9 @@ import java.util.Properties;
 
 public class Conexion {
 
-    protected static Connection cnx = null;
+    /* protected static Connection cnx = null;
 
-    public static Connection conectar() throws Exception {
+    public static Connection conectar() throws IOException {
 
         InputStream inputStream = Conexion.class.getClassLoader().getResourceAsStream("properties/db.properties");
         Properties properties = new Properties();
@@ -45,9 +46,26 @@ public class Conexion {
         } catch (SQLException e) {
             throw e;
         }
+    }*/
+    private Connection cnx;
+
+    public Connection conectar() throws Exception {
+        try {
+            Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+            cnx = DriverManager.getConnection("jdbc:sqlserver://localhost;databaseName=PUNTOVENTA;user=sa; password=admins");
+        } catch (SQLException e) {
+            System.out.println("ERROR" + e.getMessage());
+        }
+        return cnx;
     }
 
-   public static void main(String[] args) {
+    public void cerrar() throws SQLException {
+        if (cnx != null) {
+            cnx.close();
+        }
+    }
+
+    public static void main(String[] args) {
         String connectionUrl
                 = "jdbc:sqlserver://localhost:1433;"
                 + "database=PUNTOVENTA;"

@@ -1,0 +1,55 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:h="http://xmlns.jcp.org/jsf/html">
+
+    <h:head>
+        <ui:define name="title">
+            Registro de Cliente
+        </ui:define>
+    </h:head>
+    <ui:composition>>
+        <body>
+            <ui:composition template="./../../Template.xhtml">
+                <ui:define name="top">
+                    top
+                </ui:define>
+                <ui:define name="content">
+                    <div style="width: 95%; margin-left: auto; margin-right: auto;">
+                        <p:growl showDetail="true" id="msg"/>
+                        <h:form>
+                            <center> <p:commandButton value="Nuevo" oncomplete="PF('dialogS').show();"/> </center>
+                        </h:form>
+                        <h:form id="form">
+                            <p:dialog widgetVar="dialogS" modal="true" header="Registro" resizable="true" draggable="true" responsive="true">
+                                <h:form id="tab1">
+                                    <h:panelGrid columns="4" cellpadding="20">
+                                        <p:outputLabel for="codf" value="CODFAC"/>
+                                        <p:inputText id="codf" value="#{facturaC.factura.CODFAC}" maxlength="20" style="text-transform: capitalize" required="true" requiredMessage="Ingrese el apellido">
+                                            <p:keyFilter regEx="/[A-Z_a-z_ñ _á_é_í_ó_ú]/"/>
+                                        </p:inputText>
+                                        <p:outputLabel for="codc" value="IDCLI"/>
+                                        <p:inputText id="codc" value="#{facturaC.factura.IDCLI}" maxlength="20" style="text-transform: capitalize" required="true" requiredMessage="Ingrese el apellido">
+                                            <p:keyFilter regEx="/[A-Z_a-z_ñ _á_é_í_ó_ú]/"/>
+                                        </p:inputText>
+                                        <p:outputLabel for="fec" value="FECHFAC"/>
+                                        <p:calendar id="fec" value="#{facturaC.factura.FECHFAC}" mask="true" pattern="dd/MM/yyyy" showOn="button">
+                                        </p:calendar>
+                                        <p:outputLabel for="codp" value="IDPAG"/>
+                                        <p:inputText id="codp" value="#{facturaC.factura.IDPAG}" maxlength="20" style="text-transform: capitalize" required="true" requiredMessage="Ingrese el apellido">
+                                            <p:keyFilter regEx="/[A-Z_a-z_ñ _á_é_í_ó_ú]/"/>
+                                        </p:inputText>
+                                    </h:panelGrid>
+                                    <p:commandButton value="Guardar" actionListener="#{facturaC.guardar()}" update="tab1 :msg"
+                                                     oncomplete="if(args &amp;&amp; !args.validationFailed)PF('dialogS').hide()"/>
+                                </h:form>
+                            </p:dialog>  
+                        </h:form>
+                    </div>
+                </ui:define>
+            </ui:composition>
+        </body>
+    </ui:composition>>
+</html>

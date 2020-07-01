@@ -14,6 +14,11 @@ public class ModoPago {
     private String  NOMPAG;
     private String  DETALPAG ;
 
+    
+     public String getFULLNAMEP() {
+        String valor = (NOMPAG + ", " + (DETALPAG).toUpperCase());
+        return valor.toUpperCase().contains("null".toUpperCase()) ? "" : valor;
+    }
     public int getIDPAG() {
         return IDPAG;
     }

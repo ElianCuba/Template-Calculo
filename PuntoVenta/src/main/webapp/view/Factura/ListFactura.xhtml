@@ -15,26 +15,30 @@
 
     <ui:define name="content">
         <h:form id="datos" style="text-align-last: center;margin-top: 20px;">
-            <p:dataTable var="persona" 
+            <p:dataTable var="factura" 
                          id="dtTabla"
-                         value="#{categoriaC.listCategoria}" rows="10"
+                         value="#{facturaC.listFactura}" rows="10"
                          paginator="true"
                          paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
                          rowsPerPageTemplate="5,10,15"
                          reflow="true"
                          rowHover="true">
                 <p:column headerText="Nº">
-                    <h:outputText value="#{persona.IDCAT}" />
+                    <h:outputText value="#{factura.CODFAC}" />
                 </p:column>
 
-                <p:column headerText="NOMBRE">
-                    <h:outputText value="#{persona.NOMCAT}" />
+                <p:column headerText="FECHA">
+                    <h:outputText value="#{factura.FECHFAC}" >
+                    <f:convertDateTime pattern="dd-MMM-yyyy" />
+                    </h:outputText>
                 </p:column>
-
-                <p:column headerText="APELLIDO">
-                    <h:outputText value="#{persona.DESCAT}" />
+                <p:column headerText="Cliente">
+                    <h:outputText value="#{factura.IDCLI}" />
                 </p:column>
-
+                <p:column headerText="Tipo de Pago">
+                    <h:outputText value="#{factura.IDPAG}"/>
+                </p:column>
+               
             </p:dataTable>
         </h:form>
     </ui:define>

@@ -22,6 +22,12 @@ public class Cliente {
     private Number TELFCLI;
     private String EMAILCLI;
 
+    public String getFULLNAME() {
+        String valor = (NOMCLI + ", " + (APEPATCLI + " " + APEMATCLI).toUpperCase());
+
+        return valor.toUpperCase().contains("null".toUpperCase()) ? "" : valor;
+    }
+
     public int getIDCLI() {
         return IDCLI;
     }
@@ -78,7 +84,6 @@ public class Cliente {
         this.TELFCLI = TELFCLI;
     }
 
-    
     public String getEMAILCLI() {
         return EMAILCLI;
     }
@@ -86,6 +91,5 @@ public class Cliente {
     public void setEMAILCLI(String EMAILCLI) {
         this.EMAILCLI = EMAILCLI;
     }
-    
-    
+
 }

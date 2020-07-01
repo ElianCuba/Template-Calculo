@@ -8,7 +8,11 @@ package pe.edu.vallegrande.Controller;
 import javax.inject.Named;
 import javax.enterprise.context.SessionScoped;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
+import javax.annotation.PostConstruct;
+import javax.faces.application.FacesMessage;
+import javax.faces.context.FacesContext;
 import pe.edu.vallegrande.Dao.FacturaImpl;
 import pe.edu.vallegrande.Model.Factura;
 
@@ -20,103 +24,92 @@ import pe.edu.vallegrande.Model.Factura;
 @SessionScoped
 public class FacturaC implements Serializable {
 
-    private Factura modelo;
-    private FacturaImpl dao;
-    private List<Factura> listaFactura;
-    private Factura selectedFactura;
+    private Factura factura;
+    private FacturaImpl daoFactura;
+    private List<Factura> listFactura;
 
     public FacturaC() {
-        dao = new FacturaImpl();
-        modelo = new Factura();
-        //daoBuscar = new AutoCompleteImpl();
+
+        factura = new Factura();
+        daoFactura = new FacturaImpl();
+        listFactura = new ArrayList();
     }
 
-    public void registrar() throws Exception {
+    @PostConstruct
+    public void inicio() {
         try {
-            dao.registrar(modelo);
-            limpiar();
-            listaFactura = null;
-            System.out.println("Registro, completo...");
+            listar();
         } catch (Exception e) {
-            System.out.println("No se pudo realizar el Registro...");
-            throw e;
+            System.out.println("Error al listar " + e.getMessage());
         }
     }
 
-    public void modificar() throws Exception {
+    public void guardar() {
         try {
-            dao.modificar(selectedFactura);
-            listaFactura = null;
+            daoFactura.registrar(factura);
+            FacesContext.getCurrentInstance().addMessage(null,
+                    new FacesMessage(FacesMessage.SEVERITY_INFO, "Registro", "Ingresado con éxito"));
             limpiar();
-            System.out.println("Actualizacion, completa...");
         } catch (Exception e) {
-            System.out.println("No se pudo Actualizar el Registro...");
-            throw e;
+            System.out.println("Error al guardarC " + e.getMessage());
         }
     }
 
-    public void eliminar() throws Exception {
+    public void actualizar() {
         try {
-            dao.eliminar(selectedFactura);
-            limpiar();
-            listaFactura = null;
-            System.out.println("Eliminacion, completado...");
-            limpiar();
+            daoFactura.modificar(factura);
+            FacesContext.getCurrentInstance().addMessage(null,
+                    new FacesMessage(FacesMessage.SEVERITY_INFO, "Actualización", "Se actualizo con éxito"));
         } catch (Exception e) {
-            System.out.println("Falló eliminacion ...");
-            throw e;
+            System.out.println("Error al actualizarC " + e.getMessage());
         }
     }
 
-    public void limpiar() throws Exception {
+    public void eliminar(Factura factura) {
         try {
-            modelo = new Factura();
+            daoFactura.eliminar(factura);
+            FacesContext.getCurrentInstance().addMessage(null,
+                    new FacesMessage(FacesMessage.SEVERITY_INFO, "Eliminado", "Se eliminó con éxito"));
+            listar();
         } catch (Exception e) {
-            e.getMessage();
+            System.out.println("Error al eliminarC " + e.getMessage());
         }
+    }
+
+    public void limpiar() {
+        factura = new Factura();
     }
 
     public void listar() {
         try {
-
-            listaFactura = dao.listar();
-
+            listFactura = daoFactura.listar();
         } catch (Exception e) {
-            System.out.println("Error al listar" + e);
+            System.out.println("Error al  listar");
         }
-
     }
 
-    public Factura getModelo() {
-        return modelo;
+    public Factura getFactura() {
+        return factura;
     }
 
-    public void setModelo(Factura modelo) {
-        this.modelo = modelo;
+    public void setFactura(Factura factura) {
+        this.factura = factura;
     }
 
-    public FacturaImpl getDao() {
-        return dao;
+    public FacturaImpl getDaoFactura() {
+        return daoFactura;
     }
 
-    public void setDao(FacturaImpl dao) {
-        this.dao = dao;
+    public void setDaoFactura(FacturaImpl daoFactura) {
+        this.daoFactura = daoFactura;
     }
 
-    public List<Factura> getListaFactura() {
-        return listaFactura;
+    public List<Factura> getListFactura() {
+        return listFactura;
     }
 
-    public void setListaFactura(List<Factura> listaFactura) {
-        this.listaFactura = listaFactura;
-    }
-
-    public Factura getSelectedFactura() {
-        return selectedFactura;
-    }
-
-    public void setSelectedFactura(Factura selectedFactura) {
-        this.selectedFactura = selectedFactura;
+    public void setListFactura(List<Factura> listFactura) {
+        this.listFactura = listFactura;
     }
 
 }

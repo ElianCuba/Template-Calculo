@@ -5,10 +5,11 @@
  */
 package pe.edu.vallegrande.Dao;
 
-import java.sql.Date;
+import java.io.IOException;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 import pe.edu.vallegrande.Model.Categoria;
@@ -21,59 +22,90 @@ public class CategoriaImpl extends Conexion implements ICRUD<Categoria> {
 
     @Override
     public void registrar(Categoria categoria) throws Exception {
-        PreparedStatement ps;
-        String sql = "insert into CATEGORIA"
-                + " (NOMCAT,DESCAT,IDCAT)"
-                + "values (?,?,?)";
         try {
-            ps = this.conectar().prepareStatement(sql);
-            
-            ps.setString(1, categoria.getNOMCAT());
-            ps.setString(2, categoria.getDESCAT());
-            ps.setInt(3, categoria.getIDCAT());
+            String sql = "insert into categoria (IDCAT,NOMCAT, DESCAT) values (?, ?, ?)";
+            PreparedStatement ps = this.conectar().prepareStatement(sql);
+            ps.setInt(1, categoria.getIDCAT());
+            ps.setString(2, categoria.getNOMCAT());
+            ps.setString(3, categoria.getDESCAT());
             ps.executeUpdate();
             ps.close();
-            
-        } catch (ClassNotFoundException | SQLException e) {
-            System.out.println("Error en Registrar Cliente" + e.getMessage());
-        } finally {
-            this.cerrar();
+        } catch (Exception e) {
+            System.out.println("Error al guardar" + e);
         }
     }
 
     @Override
-    public void modificar(Categoria modelo) throws Exception {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public void modificar(Categoria categoria) throws Exception {
+        try {
+            int id = this.obtenerId(categoria.getIDCAT());
+            String sql = "update Categoria set NOMCAT =?, DESCAT =? where IDCAT =?";
+            PreparedStatement ps = this.conectar().prepareStatement(sql);
+            ps.setString(1, categoria.getNOMCAT());
+            ps.setString(2, categoria.getDESCAT());
+            ps.setInt(3, id);
+            ps.executeUpdate();
+            ps.close();
+        } catch (Exception e) {
+            System.out.println("Error al actualizar " + e);
+        }
     }
 
     @Override
-    public void eliminar(Categoria modelo) throws Exception {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public void eliminar(Categoria categoria) throws Exception {
+        try {
+            String sql = "delete from Categoria where IDCAT =?";
+            PreparedStatement ps = this.conectar().prepareStatement(sql);
+            ps.setInt(1, categoria.getIDCAT());
+            ps.executeUpdate();
+            ps.close();
+        } catch (Exception e) {
+            System.out.println("Error al eliminar " + e);
+        }
     }
 
     @Override
     public List<Categoria> listar() throws Exception {
+        List<Categoria> lista;
+        Categoria categoria;
         String sql = "SELECT * FROM CATEGORIA";
-        List<Categoria> listado;
-        Categoria cli;
+        try {
+            lista = new ArrayList();
+            Statement st = this.conectar().createStatement();
+            ResultSet rs = st.executeQuery(sql);
+            while (rs.next()) {
+                categoria = new Categoria();
+                categoria.setIDCAT(rs.getInt("IDCAT"));
+                categoria.setNOMCAT(rs.getString("NOMCAT"));
+                categoria.setDESCAT(rs.getString("DESCAT"));
+                lista.add(categoria);
+            }
+            st.close();
+            rs.close();
+        } catch (Exception e) {
+            System.out.println("Error al listar categoria " + e);
+            return null;
+        }
+        return lista;
+    }
+
+    private int obtenerId(int id) {
         ResultSet rs;
         try {
-            rs = conectar().createStatement().executeQuery(sql);
-            listado = new ArrayList();
-            while (rs.next()) {
-                cli = new Categoria();
-                cli.setIDCAT(rs.getInt("IDCAT"));
-                cli.setNOMCAT(rs.getString("NOMCAT"));
-                cli.setDESCAT(rs.getString("DESCAT"));
-                listado.add(cli);
+            String sql = "select IDCAT from categoria where NOMCAT =? and DESCAT =?";
+            PreparedStatement ps = this.conectar().prepareStatement(sql);
+            ps.setInt(1, id);
+            rs = ps.executeQuery();
+            if (rs.next()) {
+                return rs.getInt("IDCAT");
             }
             rs.close();
-        } catch (ClassNotFoundException | SQLException e) {
-            System.out.println("Erro al listar");
-            throw e;
-        } finally {
-            this.cerrar();
+            return 0;
+        } catch (Exception e) {
+            System.out.println("Error al obtenerId " + e);
+            return 0;
         }
-        return listado;
+
     }
+
 }

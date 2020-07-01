@@ -5,7 +5,11 @@
  */
 package pe.edu.vallegrande.Dao;
 
+import java.io.Serializable;
 import java.util.List;
+import javax.persistence.EntityExistsException;
+import javax.persistence.PersistenceException;
+import javax.persistence.TransactionRequiredException;
 
 /**
  *
@@ -21,4 +25,17 @@ public interface ICRUD<Generica> {
     void eliminar(Generica modelo) throws Exception;
 
     List<Generica> listar() throws Exception;
+    /*Generica create(Generica modelo) throws EntityExistsException, IllegalStateException,
+            IllegalArgumentException, TransactionRequiredException;
+
+    Generica read(Serializable primaryKey) throws IllegalStateException,
+            IllegalArgumentException;
+
+    void update(Generica modelo) throws IllegalStateException,
+            IllegalArgumentException, TransactionRequiredException;
+
+    void deleteO(Generica modelo) throws IllegalStateException,
+            IllegalArgumentException, TransactionRequiredException,
+            PersistenceException;*/
+
 }

@@ -1,71 +1,67 @@
 <?xml version='1.0' encoding='UTF-8' ?>
-<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
-                template="./../../TemplateP.xhtml"
-                xmlns:p="http://primefaces.org/ui"
-                xmlns:h="http://xmlns.jcp.org/jsf/html"
-                xmlns:f="http://xmlns.jcp.org/jsf/core">
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:h="http://xmlns.jcp.org/jsf/html">
 
-    <ui:define name="content">
-        <h:body>
-            <p:dialog id="dlgRegCli" widgetVar="wdlgRegCli" class="os-dialog" header="Registro Nuevo"
-                      resizable="false" draggable="false" modal="true" closable="false">
-                <h:form id="formInsCli" >
-                    <p:panelGrid columns="3" id="pgInsCli">
-                        <p:outputLabel  value="Nombres"/>
-                        <p:inputText id="nom" value="#{clienteC.modelo.NOMCLI}" maxlength="50" required="true" 
-                                     requiredMessage="Requiere Nombre" onkeyup="this.value = this.value.capitalize()">
-                            <p:keyFilter regEx="/[A-Za-z 0-9 \s Ñ ñ Á á É é Í í Ó ó Ú ú]/"/>
-                        </p:inputText>
-                        <p:message for="nom" />
-                        <p:outputLabel  value="Apellido Paterno"/>
-                        <p:inputText id="pat" value="#{clienteC.modelo.APEPATCLI}" maxlength="80" required="true" 
-                                     requiredMessage=" Requiere Apellido Paterno" onkeyup="this.value = this.value.capitalize()">
-                            <p:keyFilter regEx="/[A-Za-z \s Ñ ñ Á á É é Í í Ó ó Ú ú]/"/>
-                        </p:inputText>
-                        <p:message for="pat" />
-                        <p:outputLabel  value="Apellido Materno"/>
-                        <p:inputText id="mat" value="#{clienteC.modelo.APEMATCLI}"   required="true" 
-                                     requiredMessage="Requiere Apellido Materno" onkeyup="this.value = this.value.capitalize()">
-                            <p:keyFilter regEx="/[A-Za-z \s Ñ ñ Á á É é Í í Ó ó Ú ú]/"/>
-                        </p:inputText>
-                        <p:message for="mat" />
-                        <p:outputLabel   value="Fecha de Nacimiento" />
-                        <p:calendar id="calendar" value="#{clienteC.modelo.FECNACCLI}" mask="true" pattern="dd-MMM-yyyy"
-                                    required="true" requiredMessage="Requiere Fecha de Nacimiento" navigator="true" 
-                                    maxdate="2001-Dec-31" locale="es">
-                        </p:calendar>
-                        <p:message for="calendar" />
-                        <p:outputLabel  value="Dirección"/>
-                        <p:inputText id="dir" value="#{clienteC.modelo.DIRCLI}" maxlength="80" required="true" 
-                                     requiredMessage="Requiere Dirección" onkeyup="this.value = this.value.capitalize()">
-                            <p:keyFilter regEx="/[A-Za-z \s Ñ ñ Á á É é Í í Ó ó Ú ú]/"/>
-                        </p:inputText>
-                        <p:message for="dir" />
-                        <p:outputLabel  value="Ubigeo"/>
-
-                        <p:outputLabel  value="Número Celular"/>
-                        <p:inputText id="num" value="#{clienteC.modelo.TELFCLI}" maxlength="9" required="true" 
-                                     requiredMessage="Requiere # Celular">
-                            <p:keyFilter regEx="/[\d\-]/"/>
-                            <f:validateLength minimum="9"/>
-                        </p:inputText>
-                        <p:message for="num" />
-                        <p:inputText id="email" value="#{clienteC.modelo.EMAILCLI}" maxlength="80" required="true" 
-                                     requiredMessage="Requiere Dirección" onkeyup="this.value = this.value.capitalize()">
-                            <p:keyFilter regEx="/[A-Za-z \s Ñ ñ Á á É é Í í Ó ó Ú ú]/"/>
-                        </p:inputText>
-                        <p:message for="email" />
-                    </p:panelGrid>  
-                    <p:commandButton value="Registrar" actionListener="#{clienteC.registrar}" update="formInsCli :mnsj :formLstCli" 
-                                     oncomplete="if(args &amp;&amp; !args.validationFailed)PF('wdlgRegCli').hide();"/>
-                    <p:commandButton value="Cancelar" icon="ui-icon-close" immediate="true" oncomplete="PF('wdlgRegCli').hide();" 
-                                     update="pgInsCli" process="@this">
-                        <p:resetInput target="pgInsCli" />
-                    </p:commandButton>
-                </h:form>
-            </p:dialog>
-        </h:body>
-    </ui:define>
-
-</ui:composition>
+    <h:head>
+        <ui:define name="title">
+            Registro de Cliente
+        </ui:define>
+    </h:head>
+    <ui:composition>>
+        <body>
+            <ui:composition template="./../../Template.xhtml">
+                <ui:define name="top">
+                    top
+                </ui:define>
+                <ui:define name="content">
+                    <div style="width: 95%; margin-left: auto; margin-right: auto;">
+                        <p:growl showDetail="true" id="msg"/>
+                        <h:form>
+                            <center> <p:commandButton value="Nuevo" oncomplete="PF('dialogS').show();"/> </center>
+                        </h:form>
+                        <h:form id="form">
+                            <p:dialog widgetVar="dialogS" modal="true" header="Registro" resizable="true" draggable="true" responsive="true">
+                                <h:form id="tab1">
+                                    <h:panelGrid columns="4" cellpadding="20">
+                                        <p:outputLabel for="nombre1" value="Nombre"/>
+                                        <p:inputText id="nombre1" value="#{clienteC.cliente.NOMCLI}" maxlength="20" style="text-transform: capitalize" required="true" requiredMessage="Ingrese el nombre">
+                                            <p:keyFilter regEx="/[A-Z_a-z_ñ _á_é_í_ó_ú]/"/>
+                                        </p:inputText>
+                                        <p:outputLabel for="apellidoP" value="Apellido Paterno"/>
+                                        <p:inputText id="apellidoP" value="#{clienteC.cliente.APEPATCLI}" maxlength="20" style="text-transform: capitalize" required="true" requiredMessage="Ingrese el apellido">
+                                            <p:keyFilter regEx="/[A-Z_a-z_ñ _á_é_í_ó_ú]/"/>
+                                        </p:inputText>
+                                        <p:outputLabel for="apellidoM" value="Apellido Materno"/>
+                                        <p:inputText id="apellidoM" value="#{clienteC.cliente.APEMATCLI}" maxlength="20" style="text-transform: capitalize" required="true" requiredMessage="Ingrese el apellido">
+                                            <p:keyFilter regEx="/[A-Z_a-z_ñ _á_é_í_ó_ú]/"/>
+                                        </p:inputText>
+                                        <p:outputLabel for="nacimiento" value="Fecha Nacimiento"/>
+                                        <p:calendar id="nacimiento" value="#{clienteC.cliente.FECNACCLI}" mask="true" pattern="dd/MM/yyyy" showOn="button">
+                                        </p:calendar>
+                                        <p:outputLabel for="dir" value="Direccion"/>
+                                        <p:inputText id="dir" value="#{clienteC.cliente.DIRCLI}" maxlength="20" style="text-transform: capitalize" required="true" requiredMessage="Ingrese el apellido">
+                                            <p:keyFilter regEx="/[A-Z_a-z_ñ _á_é_í_ó_ú]/"/>
+                                        </p:inputText>
+                                        <p:outputLabel for="telf" value="Celular"/>
+                                        <p:inputText id="telf" value="#{clienteC.cliente.TELFCLI}" maxlength="8" required="true" requiredMessage="Ingrese el DNI">
+                                            <p:keyFilter regEx="/[0-9]/"/>
+                                        </p:inputText>
+                                        <p:outputLabel for="email" value="Email"/>
+                                        <p:inputText id="email" value="#{clienteC.cliente.EMAILCLI}" maxlength="20" style="text-transform: capitalize" required="true" requiredMessage="Ingrese el apellido">
+                                            <p:keyFilter regEx="/[A-Z_a-z_ñ _á_é_í_ó_ú]/"/>
+                                        </p:inputText>
+                                    </h:panelGrid>
+                                    <p:commandButton value="Guardar" actionListener="#{clienteC.guardar()}" update="tab1 :msg"
+                                                     oncomplete="if(args &amp;&amp; !args.validationFailed)PF('dialogS').hide()"/>
+                                </h:form>
+                            </p:dialog>  
+                        </h:form>
+                    </div>
+                </ui:define>
+            </ui:composition>
+        </body>
+    </ui:composition>>
+</html>

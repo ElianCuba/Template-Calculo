@@ -15,26 +15,39 @@
 
     <ui:define name="content">
         <h:form id="datos" style="text-align-last: center;margin-top: 20px;">
-            <p:dataTable var="persona" 
+            <p:dataTable var="cliente" 
                          id="dtTabla"
-                         value="#{categoriaC.listCategoria}" rows="10"
+                         value="#{clienteC.listCliente}" rows="10"
                          paginator="true"
                          paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
                          rowsPerPageTemplate="5,10,15"
                          reflow="true"
                          rowHover="true">
                 <p:column headerText="Nº">
-                    <h:outputText value="#{persona.IDCAT}" />
+                    <h:outputText value="#{cliente.IDCLI}" />
                 </p:column>
 
                 <p:column headerText="NOMBRE">
-                    <h:outputText value="#{persona.NOMCAT}" />
+                    <h:outputText value="#{cliente.NOMCLI}" />
                 </p:column>
 
-                <p:column headerText="APELLIDO">
-                    <h:outputText value="#{persona.DESCAT}" />
+                <p:column headerText="APELLIDOS">
+                    <h:outputText value="#{cliente.APEMATCLI},#{cliente.APEPATCLI}" />
                 </p:column>
-
+                <p:column headerText="FECHA NACIMIENTO">
+                    <h:outputText value="#{cliente.FECNACCLI}" >
+                    <f:convertDateTime pattern="dd-MMM-yyyy" />
+                    </h:outputText>
+                </p:column>
+                <p:column headerText="DIRECCION">
+                    <h:outputText value="#{cliente.DIRCLI}" />
+                </p:column>
+                <p:column headerText="TELEFONO">
+                    <h:outputText value="#{cliente.TELFCLI}" />
+                </p:column>
+                <p:column headerText="EMAIL">
+                    <h:outputText value="#{cliente.EMAILCLI}" />
+                </p:column>
             </p:dataTable>
         </h:form>
     </ui:define>
