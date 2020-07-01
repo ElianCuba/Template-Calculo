@@ -14,34 +14,37 @@
             title
         </ui:insert>
     </h:head>
-
     <h:body>
-
         <div id="top" class="top">
-            <ui:insert name="top">
-                <div id="top" class="top">
-                    <h:form>  
-                        <p:growl id="messages"/>
-                        <p:menubar>
-                            <p:submenu label="Tablas" icon="pi pi-file">
-                                <p:submenu label="Cliente" icon="pi pi-briefcase">
-                                    <p:menuitem value="ClienteL" url="/PuntoVenta/faces/view/Cliente/ListClient.xhtml" />
-                                    <p:menuitem value="ClienteR" url="/PuntoVenta/faces/view/Cliente/InsClient.xhtml" />
-                                </p:submenu>
-                                <p:submenu label="Maestros" icon="pi pi-briefcase">
-                                    <p:menuitem value="CategoriaL" url="/PuntoVenta/faces/view/Categoria/ListCategoria.xhtml" />
-                                    <p:menuitem value="Categoria" url="/PuntoVenta/faces/view/Categoria/InsCategoria.xhtml" />
-                                </p:submenu>
+            <div id="menubar">
+                <h:form>  
+                    <p:growl id="messages"/>
+                    <p:menubar>
+                        <p:submenu label="Tablas" icon="pi pi-file">
+                            <p:submenu label="Cliente" icon="pi pi-briefcase">
+                                <p:menuitem value="Listar" url="/PuntoVenta/faces/view/Cliente/ListClient.xhtml" />
+                                <p:menuitem value="Registar" url="/PuntoVenta/faces/view/Cliente/InsClient.xhtml" />
                             </p:submenu>
-                        </p:menubar>
-                    </h:form>                
-                </div>
-            </ui:insert>
+                            <p:submenu label="Categoria" icon="pi pi-briefcase">
+                                <p:menuitem value="Listar" url="/PuntoVenta/faces/view/Categoria/ListCategoria.xhtml" />
+                                <p:menuitem value="Registar" url="/PuntoVenta/faces/view/Categoria/InsCategoria.xhtml" />
+                            </p:submenu>
+                            <p:submenu label="Factura" icon="pi pi-briefcase">
+                                <p:menuitem value="Listar" url="/PuntoVenta/faces/view/Factura/ListFactura.xhtml" />
+                                <p:menuitem value="Registar" url="/PuntoVenta/faces/view/Factura/InsFactura.xhtml" />
+                            </p:submenu>
+                             <p:submenu label="Producto" icon="pi pi-briefcase">
+                                <p:menuitem value="Listar" url="/PuntoVenta/faces/view/Producto/ListProducto.xhtml" />
+                                <p:menuitem value="Registar" url="/PuntoVenta/faces/view/Producto/InsProducto.xhtml" />
+                            </p:submenu>
+                        </p:submenu>
+                    </p:menubar>
+                </h:form>                
+            </div>
         </div>
         <div id="content" class="center_content">
             <ui:insert name="content">Content</ui:insert>
         </div>
-
     </h:body>
 
 </html>

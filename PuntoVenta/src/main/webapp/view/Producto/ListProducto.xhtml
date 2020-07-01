@@ -5,48 +5,43 @@
                 xmlns:h="http://xmlns.jcp.org/jsf/html"
                 xmlns:p="http://primefaces.org/ui"
                 xmlns:f="http://xmlns.jcp.org/jsf/core">
+
     <ui:define name="title">
-        Lista Cliente
+        title
     </ui:define>
     <ui:define name="top">
         top
     </ui:define>
+
     <ui:define name="content">
         <h:form id="datos" style="text-align-last: center;margin-top: 20px;">
-            <p:dataTable var="cliente" 
+            <p:dataTable var="producto" 
                          id="dtTabla"
-                         value="#{clienteC.listCliente}" rows="10"
+                         value="#{productoC.listProducto}" rows="10"
                          paginator="true"
                          paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
                          rowsPerPageTemplate="5,10,15"
                          reflow="true"
                          rowHover="true">
                 <p:column headerText="Nº">
-                    <h:outputText value="#{cliente.IDCLI}" />
+                    <h:outputText value="#{producto.IDPROD}" />
                 </p:column>
 
-                <p:column headerText="NOMBRE">
-                    <h:outputText value="#{cliente.NOMCLI}" />
-                </p:column>
-
-                <p:column headerText="APELLIDOS">
-                    <h:outputText value="#{cliente.APEMATCLI},#{cliente.APEPATCLI}" />
-                </p:column>
-                <p:column headerText="FECHA NACIMIENTO">
-                    <h:outputText value="#{cliente.FECNACCLI}" >
+                <p:column headerText="Nombres">
+                    <h:outputText value="#{producto.NOMPROD}" >
                         <f:convertDateTime pattern="dd-MMM-yyyy" />
                     </h:outputText>
                 </p:column>
-                <p:column headerText="DIRECCION">
-                    <h:outputText value="#{cliente.DIRCLI}" />
+                <p:column headerText="Categoria">
+                    <h:outputText value="#{producto.IDCAT}" />
                 </p:column>
-                <p:column headerText="TELEFONO">
-                    <h:outputText value="#{cliente.TELFCLI}" />
+                <p:column headerText="Precio">
+                    <h:outputText value="#{producto.PRICPROD}"/>
                 </p:column>
-                <p:column headerText="EMAIL">
-                    <h:outputText value="#{cliente.EMAILCLI}" />
+                <p:column headerText="Stock">
+                    <h:outputText value="#{producto.STOCK}"/>
                 </p:column>
-            </p:dataTable>    
+            </p:dataTable>
         </h:form>
     </ui:define>
 </ui:composition>

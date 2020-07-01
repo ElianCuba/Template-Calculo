@@ -10,7 +10,7 @@
             Registro de Cliente
         </ui:define>
     </h:head>
-    <ui:composition>>
+    <ui:composition>
         <body>
             <ui:composition template="./../../Template.xhtml">
                 <ui:define name="top">
@@ -31,26 +31,26 @@
                                             <p:keyFilter regEx="/[A-Z_a-z_ñ _á_é_í_ó_ú]/"/>
                                         </p:inputText>
                                         <p:outputLabel for="apellidoP" value="Apellido Paterno"/>
-                                        <p:inputText id="apellidoP" value="#{clienteC.cliente.APEPATCLI}" maxlength="20" style="text-transform: capitalize" required="true" requiredMessage="Ingrese el apellido">
+                                        <p:inputText id="apellidoP" value="#{clienteC.cliente.APEPATCLI}" maxlength="20" style="text-transform: capitalize" required="true" requiredMessage="Ingrese el apellido paterno">
                                             <p:keyFilter regEx="/[A-Z_a-z_ñ _á_é_í_ó_ú]/"/>
                                         </p:inputText>
                                         <p:outputLabel for="apellidoM" value="Apellido Materno"/>
-                                        <p:inputText id="apellidoM" value="#{clienteC.cliente.APEMATCLI}" maxlength="20" style="text-transform: capitalize" required="true" requiredMessage="Ingrese el apellido">
+                                        <p:inputText id="apellidoM" value="#{clienteC.cliente.APEMATCLI}" maxlength="20" style="text-transform: capitalize" required="true" requiredMessage="Ingrese el apellido materno">
                                             <p:keyFilter regEx="/[A-Z_a-z_ñ _á_é_í_ó_ú]/"/>
                                         </p:inputText>
                                         <p:outputLabel for="nacimiento" value="Fecha Nacimiento"/>
                                         <p:calendar id="nacimiento" value="#{clienteC.cliente.FECNACCLI}" mask="true" pattern="dd/MM/yyyy" showOn="button">
                                         </p:calendar>
                                         <p:outputLabel for="dir" value="Direccion"/>
-                                        <p:inputText id="dir" value="#{clienteC.cliente.DIRCLI}" maxlength="20" style="text-transform: capitalize" required="true" requiredMessage="Ingrese el apellido">
+                                        <p:inputText id="dir" value="#{clienteC.cliente.DIRCLI}" maxlength="20" style="text-transform: capitalize" required="true" requiredMessage="Ingrese el Dirección">
                                             <p:keyFilter regEx="/[A-Z_a-z_ñ _á_é_í_ó_ú]/"/>
                                         </p:inputText>
                                         <p:outputLabel for="telf" value="Celular"/>
-                                        <p:inputText id="telf" value="#{clienteC.cliente.TELFCLI}" maxlength="8" required="true" requiredMessage="Ingrese el DNI">
+                                        <p:inputText id="telf" value="#{clienteC.cliente.TELFCLI}" maxlength="8" required="true" requiredMessage="Ingrese el Telefono">
                                             <p:keyFilter regEx="/[0-9]/"/>
                                         </p:inputText>
                                         <p:outputLabel for="email" value="Email"/>
-                                        <p:inputText id="email" value="#{clienteC.cliente.EMAILCLI}" maxlength="20" style="text-transform: capitalize" required="true" requiredMessage="Ingrese el apellido">
+                                        <p:inputText id="email" value="#{clienteC.cliente.EMAILCLI}" maxlength="20" style="text-transform: capitalize" required="true" requiredMessage="Ingrese el Email">
                                             <p:keyFilter regEx="/[A-Z_a-z_ñ _á_é_í_ó_ú]/"/>
                                         </p:inputText>
                                     </h:panelGrid>
