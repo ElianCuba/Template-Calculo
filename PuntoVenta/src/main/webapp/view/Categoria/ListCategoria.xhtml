@@ -15,7 +15,7 @@
 
     <ui:define name="content">
         <h:form id="datos" style="text-align-last: center;margin-top: 20px;">
-            <p:dataTable var="persona" 
+            <p:dataTable var="categoria" 
                          id="dtTabla"
                          value="#{categoriaC.listCategoria}" rows="10"
                          paginator="true"
@@ -24,15 +24,15 @@
                          reflow="true"
                          rowHover="true">
                 <p:column headerText="Nº">
-                    <h:outputText value="#{persona.IDCAT}" />
+                    <h:outputText value="#{categoria.IDCAT}" />
                 </p:column>
 
                 <p:column headerText="NOMBRE">
-                    <h:outputText value="#{persona.NOMCAT}" />
+                    <h:outputText value="#{categoria.NOMCAT}" />
                 </p:column>
 
                 <p:column headerText="APELLIDO">
-                    <h:outputText value="#{persona.DESCAT}" />
+                    <h:outputText value="#{categoria.DESCAT}" />
                 </p:column>
 
             </p:dataTable>
