@@ -1,0 +1,83 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                template="./../template/template.xhtml">
+
+    <ui:define name="content">
+        <p:tabView>
+            <p:tab title="Lista de Productos">
+                <h:form>
+                    <p:commandButton value="Nuevo" oncomplete="PF('wdlgRegProd').show();"/>
+                </h:form>
+                <h:panelGrid columns="1" cellpadding="10"> 
+                    <h:form id="datos" style="text-align-last: center;margin-top: 20px;">
+                        <p:dataTable id="dtTabla"                                     
+                                     value="#{productoC.listProducto}"
+                                     widgetVar="wvDtTblCli"
+                                     var="producto" 
+                                     rowKey="#{producto.IDPROD}"
+                                     selectionMode="single" selection="#{productoC.producto}"
+                                     rows="10" emptyMessage="No se encontrarón datos." 
+                                     scrollable="false" scrollHeight="500"
+                                     paginator="true"
+                                     paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                     rowsPerPageTemplate="5,10,15"
+                                     reflow="true"
+                                     rowHover="true"> 
+                            <p:column headerText="Cliente">
+                                <h:outputText value="#{producto.NOMPROD}" />
+                            </p:column>
+                            <p:column headerText="Descripcion">
+                                <h:outputText value="#{producto.DESCPPROD}"/>
+                            </p:column>
+                            <p:column headerText="Descripcion">
+                                <h:outputText value="#{producto.PRECPROD}"/>
+                            </p:column>
+                            <p:column headerText="Total de producto">
+                                <h:outputText value="#{producto.STOCK}"/>
+                            </p:column>
+                        </p:dataTable> 
+                        <p:contextMenu for="dtTabla">
+                            <p:menuitem value="Modificar" icon="ui-icon-pencil"
+                                        oncomplete="PF('wdlgEditProd').show();" />
+                            <p:menuitem value="Eliminar" update="dtTabla " icon="ui-icon-circle-close" 
+                                        actionListener="#{productoC.eliminar()}" >
+                                <p:confirm header="Confirmación" message="¿Deseas Eliminar? " icon="ui-icon-alert" />
+                                <p:tooltip trackMouse="true"/>
+                            </p:menuitem>
+                        </p:contextMenu>
+                    </h:form>
+                </h:panelGrid>
+                <!-- Agregar-->
+                <p:dialog widgetVar="wdlgRegProd"  header="Registro" resizable="true"  responsive="true">
+                    <h:form id="tab1">
+                        <h:panelGrid columns="4" cellpadding="20">
+                            <p:outputLabel for="nom" value="Nombre"/>
+                            <p:inputText id="nom" value="#{productoC.producto.NOMPROD}" maxlength="20" style="text-transform: capitalize" required="true" requiredMessage="Ingrese el apellido">
+                                <p:keyFilter regEx="/[A-Z_a-z_ñ _á_é_í_ó_ú]/"/>
+                            </p:inputText>
+                            <p:outputLabel for="codp" value="Descripcion"/>
+                            <p:inputText id="codp" value="#{productoC.producto.DESCPPROD}" maxlength="20" style="text-transform: capitalize" required="true" requiredMessage="Ingrese el apellido">
+                                <p:keyFilter regEx="/[A-Z_a-z_ñ _á_é_í_ó_ú]/"/>
+                            </p:inputText>
+                            <p:outputLabel for="tot" value="Precio"/>
+                            <p:inputText id="tot" value="#{productoC.producto.PRECPROD}" maxlength="20" style="text-transform: capitalize" required="true" requiredMessage="Ingrese el apellido">
+                                <p:keyFilter regEx="/[0-9]/"/>
+                            </p:inputText>
+                            <p:outputLabel for="stock" value="Stock"/>
+                            <p:inputText id="stock" value="#{productoC.producto.STOCK}" maxlength="20" style="text-transform: capitalize" required="true" requiredMessage="Ingrese el apellido">
+                                <p:keyFilter regEx="/[0-9]/"/>
+                            </p:inputText>
+                        </h:panelGrid>
+                        <p:commandButton value="Guardar" actionListener="#{productoC.guardar()}" update="tab1"
+                                         oncomplete="if(args &amp;&amp; !args.validationFailed)PF('wdlgRegProd').hide()"/>
+                        <p:commandButton value="Detalle" oncomplete="PF('wdlgRegDet').show();"/> 
+                    </h:form>
+                </p:dialog>  
+            </p:tab>          
+        </p:tabView>
+        <a href="Detalle.xhtml"></a>
+    </ui:define>
+</ui:composition>

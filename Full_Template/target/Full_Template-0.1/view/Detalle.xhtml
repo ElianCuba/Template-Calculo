@@ -1,0 +1,36 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                template="./../template/template.xhtml"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:h="http://xmlns.jcp.org/jsf/html">
+
+    <ui:define name="content">
+        <p:tabView>
+            <p:tab title="Lista de Factura">
+                <p:dialog widgetVar="wdlgRegDet"  header="Registro" resizable="true"  responsive="true">
+                    <h:form id="tab1">
+                        <h:panelGrid columns="4" cellpadding="20">
+                            <p:outputLabel for="copfc" value="Nª FACTURA"/>
+                            <p:calendar id="copfc" value="#{detalleC.detalle_Factura.CODFAC}" mask="true" pattern="dd/MM/yyyy" showOn="button">
+                            </p:calendar>
+                            <p:outputLabel for="codpr" value="PRODUCTO"/>
+                            <p:inputText id="codpr" value="#{detalleC.detalle_Factura.IDPROD}" maxlength="20" style="text-transform: capitalize" required="true" requiredMessage="Ingrese el apellido">
+                            </p:inputText>
+                            <p:outputLabel for="tot" value="Total"/>
+                            <p:inputText id="tot" value="#{detalleC.detalle_Factura.CANTDET}" maxlength="20" style="text-transform: capitalize" required="true" requiredMessage="Ingrese el apellido">
+                            </p:inputText>
+
+                            <p:outputLabel for="stot" value="SubTotal"/>                                                                     
+                            <h:outputText id="stot" value="#{detalleC.detalle_Factura.SUBTOTDET}" />
+
+                        </h:panelGrid>
+                    </h:form>
+                    <p:commandButton value="Guardar" actionListener="#{detalleC.guardar()}" update="formDet"
+                                     oncomplete="if(args &amp;&amp; !args.validationFailed)PF('formDet').hide()"/>
+                    <p:commandButton value="Detalle" oncomplete="PF('formDet').show();"/> 
+                </p:dialog>
+            </p:tab>
+        </p:tabView>
+    </ui:define>
+</ui:composition>

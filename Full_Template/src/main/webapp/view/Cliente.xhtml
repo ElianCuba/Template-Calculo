@@ -1,0 +1,140 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                template="./../template/template.xhtml">
+    <ui:define name="content">
+        <p:tabView  >
+            <p:autoUpdate/>
+            <p:tab title="Lista Cliente" >
+                <h:form >
+                    <p:commandButton value="Editar" 
+                                     oncomplete="PF('wdlgEditCli').show();" icon="ui-icon-pencil" ajax="true" update="@all"/>
+                    <p:commandButton value="Eliminar"  actionListener="#{clienteC.eliminar()}">
+                        <p:confirm header="Confirmación" message="¿Deseas Eliminar? " icon="ui-icon-alert" />
+                        <p:tooltip trackMouse="true"/>
+                    </p:commandButton>
+                    <p:commandButton value="Nuevo" oncomplete="PF('wdlgRegCli').show();"/>
+                </h:form>
+                <h:form id="frmListCli">
+                    <p:growl showDetail="true" id="msgt"/>
+                    <h:panelGrid id="pnlList" columns="1" cellpadding="10">
+                        <p:dataTable id="dtTabla"                                     
+                                     value="#{clienteC.listCliente}"
+                                     widgetVar="wvDtTblCli"
+                                     var="cliente" 
+                                     rowKey="#{cliente.IDCLI}"
+                                     selectionMode="single" selection="#{clienteC.clienteSeled}"
+                                     rows="10" emptyMessage="No se encontrarón datos." 
+                                     filteredValue="#{clienteC.filteredCliente}"
+                                     scrollable="false" scrollHeight="500"
+                                     paginator="true"
+                                     paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                     rowsPerPageTemplate="5,10,15"
+                                     reflow="true"
+                                     rowHover="true"> 
+
+                            <p:column headerText="NOMBRE">
+                                <h:outputText value="#{cliente.NOMCLI}" />
+                            </p:column>
+
+                            <p:column headerText="APELLIDOS">
+                                <h:outputText value="#{cliente.APEMATCLI},#{cliente.APEPATCLI}" />
+                            </p:column>
+
+                            <p:column headerText="DIRECCION">
+                                <h:outputText value="#{cliente.DIRCLI}" />
+                            </p:column>
+                            <p:column headerText="TELEFONO">
+                                <h:outputText value="#{cliente.TELFCLI}" />
+                            </p:column>
+                        </p:dataTable>  
+                        <p:contextMenu for="dtTabla">
+                            <p:menuitem value="Modificar" icon="ui-icon-pencil"
+                                        oncomplete="PF('wdlgEditCli').show();" />
+                            <p:menuitem value="Eliminar" update="dtTabla pnlList " icon="ui-icon-circle-close" 
+                                        actionListener="#{clienteC.eliminar()}" >
+                                <p:confirm header="Confirmación" message="¿Deseas Eliminar? " icon="ui-icon-alert" />
+                                <p:tooltip trackMouse="true"/>
+                            </p:menuitem>
+                        </p:contextMenu>
+                    </h:panelGrid>
+                </h:form>
+                <!--Agregar-->
+                <p:dialog id="dlgRegCli" widgetVar="wdlgRegCli"  header="Nuevo Registro">
+                    <p:growl showDetail="true" id="msg"/>
+                    <h:form id="frmRegCli">
+                        <h:panelGrid id="pnlr" columns="4" cellpadding="20">
+                            <p:outputLabel for="nombre1" value="Nombre"/>
+                            <p:inputText id="nombre1" value="#{clienteC.cliente.NOMCLI}" maxlength="20" style="text-transform: capitalize" required="true" requiredMessage="Ingrese el nombre">
+                                <p:keyFilter regEx="/[A-Z_a-z_ñ _á_é_í_ó_ú]/"/>
+                            </p:inputText>
+                            <p:outputLabel for="apellidoP" value="Apellido Paterno"/>
+                            <p:inputText id="apellidoP" value="#{clienteC.cliente.APEPATCLI}" maxlength="20" style="text-transform: capitalize" required="true" requiredMessage="Ingrese el apellido paterno">
+                                <p:keyFilter regEx="/[A-Z_a-z_ñ _á_é_í_ó_ú]/"/>
+                            </p:inputText>
+                            <p:outputLabel for="apellidoM" value="Apellido Materno"/>
+                            <p:inputText id="apellidoM" value="#{clienteC.cliente.APEMATCLI}" maxlength="20" style="text-transform: capitalize" required="true" requiredMessage="Ingrese el apellido materno">
+                                <p:keyFilter regEx="/[A-Z_a-z_ñ _á_é_í_ó_ú]/"/>
+                            </p:inputText>
+                            <p:outputLabel for="dir" value="Direccion"/>
+                            <p:inputText id="dir" value="#{clienteC.cliente.DIRCLI}" maxlength="20" style="text-transform: capitalize" required="true" requiredMessage="Ingrese el Dirección">
+                                <p:keyFilter regEx="/[A-Z_a-z_ñ _á_é_í_ó_ú]/"/>
+                            </p:inputText>
+                            <p:outputLabel for="telf" value="Celular"/>
+                            <p:inputText id="telf" value="#{clienteC.cliente.TELFCLI}" maxlength="9" required="true" requiredMessage="Ingrese el Telefono">
+                                <p:keyFilter regEx="/[0-9]/"/>
+                            </p:inputText>                                        
+                        </h:panelGrid>
+                        <p:commandButton 
+                            value="Guardar" oncomplete="if(args &amp;&amp; !args.validationFailed)PF('wdlgRegCli').hide();"
+                            actionListener="#{clienteC.guardar()}"  ajax="true" update="@all" />
+                        <p:commandButton value="Cancelar" icon="ui-icon-close" immediate="true" oncomplete="PF('wdlgRegCli').hide();" 
+                                         update="pnlr" process="@this">
+                            <p:resetInput target="pnlr" />
+                        </p:commandButton>
+                    </h:form>
+                </p:dialog>
+                <!--Modificar-->
+                <p:dialog id="dlgEditCli" widgetVar="wdlgEditCli"  header="Actualizacion de los datos">
+                    <h:form id="formEditCli">
+                        <p:panelGrid columns="4" id="pgEditCli">
+                            <p:outputLabel for="nom" value="Nombres"/>
+                            <p:inputText id="nom" value="#{clienteC.cliente.NOMCLI}" maxlength="50" required="true" requiredMessage="Requiere Nombre" onkeyup="this.value = this.value.capitalize()">
+                                <p:keyFilter regEx="/[A-Za-z 0-9 \s Ñ ñ Á á É é Í í Ó ó Ú ú]/"/>
+                            </p:inputText>
+                            <p:outputLabel for="pat" value="Apellido Paterno"/>
+                            <p:inputText id="pat" value="#{clienteC.cliente.APEPATCLI}" maxlength="80" required="true" requiredMessage=" Requiere Apellido Paterno" onkeyup="this.value = this.value.capitalize()">
+                                <p:keyFilter regEx="/[A-Za-z \s Ñ ñ Á á É é Í í Ó ó Ú ú]/"/>
+                            </p:inputText>
+                            <p:outputLabel for="mat" value="Apellido Materno"/>
+                            <p:inputText id="mat" value="#{clienteC.cliente.APEMATCLI}"   required="true" requiredMessage=" Requiere Apellido Materno" onkeyup="this.value = this.value.capitalize()">
+                                <p:keyFilter regEx="/[A-Za-z \s Ñ ñ Á á É é Í í Ó ó Ú ú]/"/>
+                            </p:inputText>
+                            <p:outputLabel for="dir" value="Dirección"/>
+                            <p:inputText id="dir" value="#{clienteC.cliente.DIRCLI}" maxlength="80" required="true" requiredMessage="Requiere Dirección" onkeyup="this.value = this.value.toUpperCase()">
+                                <p:keyFilter regEx="/[A-Za-z \s Ñ ñ Á á É é Í í Ó ó Ú ú][0-9]/"/>
+                            </p:inputText>
+                            <p:outputLabel value="Número Celular"/>
+                            <p:inputText id="num" value="#{clienteC.cliente.TELFCLI}" maxlength="9" rendered="true" requiredMessage="Requiere # Celular">
+                                <p:keyFilter regEx="/[\d\-]/"/>
+                                <f:validateLength minimum="9"/>
+                            </p:inputText>
+                        </p:panelGrid>
+                        <p:commandButton value="Actualizar" actionListener="#{clienteC.actualizar()}"
+                                         oncomplete="if(!args.validationFailed)PF('wdlgEditCli').hide();PF('wvDtTblCli').filter();"
+                                         ajax="true" update="@all"  >
+                        </p:commandButton>
+
+                        <p:commandButton value="Cancelar" icon="ui-icon-close" immediate="true" oncomplete="PF('wdlgEditCli').hide();" 
+                                         ajax="true" update="@all" process="@this">
+                            <p:resetInput target="pgEditCli" />
+                        </p:commandButton>
+                    </h:form>
+                </p:dialog> 
+            </p:tab>
+        </p:tabView>
+    </ui:define>
+</ui:composition>

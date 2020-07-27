@@ -1,0 +1,16 @@
+pe\edu\vallegrande\Dao\ClienteImpl.class
+pe\edu\vallegrande\Model\Cliente.class
+pe\edu\vallegrande\Model\Sevice\serv.class
+pe\edu\vallegrande\Controller\FacturaC.class
+pe\edu\vallegrande\Dao\Detalle_FacturaImpl.class
+pe\edu\vallegrande\Dao\ICRUD.class
+pe\edu\vallegrande\Dao\ProductoImpl.class
+pe\edu\vallegrande\Controller\ClienteC.class
+pe\edu\vallegrande\Model\Factura.class
+pe\edu\vallegrande\Dao\Conexion.class
+pe\edu\vallegrande\Model\Detalle_Factura.class
+pe\edu\vallegrande\Controller\ProductoC.class
+pe\edu\vallegrande\Controller\DetalleC.class
+pe\edu\vallegrande\Dao\FacturaImpl.class
+pe\edu\vallegrande\Model\Producto.class
+pe\edu\vallegrande\Model\Sevice\Validation.class

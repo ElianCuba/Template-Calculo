@@ -1,0 +1,86 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                template="./../template/template.xhtml"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:h="http://xmlns.jcp.org/jsf/html">
+    <ui:define name="content">
+        <h2>FACTURA</h2>
+        <p:tabView>            
+            <p:tab title="Lista de Factura">
+                <p:commandButton value="Nuevo" oncomplete="PF('dialogS').show();"/>
+                <h:panelGrid columns="1" cellpadding="10">
+                    <h:form id="datos" style="text-align-last: center;margin-top: 20px;">
+
+                        <p:dataTable id="dtTabla"                                     
+                                     value="#{facturaC.listFactura}"
+                                     widgetVar="wvDtTblCli"
+                                     var="factura" 
+                                     rowKey="#{facturaC.factura.CODFAC}"
+                                     selectionMode="single" selection="#{facturaC.factura}"
+                                     rows="10" emptyMessage="No se encontrarón datos." 
+                                     scrollable="false" scrollHeight="500"
+                                     paginator="true"
+                                     paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                     rowsPerPageTemplate="5,10,15"
+                                     reflow="true"
+                                     rowHover="true"> 
+                            
+                            <p:column headerText="Cliente">
+                                <h:outputText value="#{factura.IDCLIFAC.NOMCLI}-#{factura.IDCLIFAC.APEPATCLI},#{factura.IDCLIFAC.APEMATCLI}" />
+                            </p:column>
+                            <p:column headerText="Descripcion">
+                                <h:outputText value="#{factura.DESCFAC}"/>
+                            </p:column>
+                            <p:column headerText="Descripcion">
+                                <h:outputText value="#{factura.IGV}"/>
+                            </p:column>
+                            <p:column headerText="Total de factura">
+                                <h:outputText value="#{factura.TOTFAC}"/>
+                            </p:column>
+                            <p:column headerText="Total a Pagar">
+                                <h:outputText value="#{factura.TOTPAGFAC}"/>
+                            </p:column>
+                        </p:dataTable> 
+                    </h:form>
+                </h:panelGrid>
+                <h:panelGrid columns="1" cellpadding="10">
+                    <div style="width: 95%; margin-left: auto; margin-right: auto;">
+                        <p:growl showDetail="true" id="msg"/>
+                        <h:form id="formFac">
+                            <p:dialog widgetVar="dialogS"  header="Registro" resizable="true"  responsive="true">
+                                <h:form id="tab1">
+                                    <h:panelGrid columns="4" cellpadding="20">
+                                        <p:outputLabel for="fec" value="FECHFAC"/>
+                                        <p:calendar id="fec" value="#{facturaC.factura.FECHFAC}" mask="true" pattern="dd/MM/yyyy" showOn="button">
+                                        </p:calendar>
+                                        <p:outputLabel for="codp" value="Cliente"/>
+                                        <p:inputText id="codp" value="#{facturaC.factura.IDCLI}" maxlength="20" style="text-transform: capitalize" required="true" requiredMessage="Ingrese el apellido">
+                                            <!--<p:keyFilter regEx="/[A-Z_a-z_ñ _á_é_í_ó_ú][0-9]/"/>-->
+                                        </p:inputText>
+                                        <p:outputLabel for="tot" value="Total"/>
+                                        <p:inputText id="tot" value="#{facturaC.factura.TOTFAC}" maxlength="20" style="text-transform: capitalize" required="true" requiredMessage="Ingrese el apellido">
+                                        </p:inputText>
+
+                                        <p:outputLabel for="igv" value="Total"/>                                                                     
+                                        <h:outputText id="igv" value="#{facturaC.factura.IGV}" />
+
+                                        <p:outputLabel for="totpa" value="Total a Pagar"/>
+                                        <p:inputText id="totpa" value="#{facturaC.factura.TOTPAGFAC}" maxlength="20" style="text-transform: capitalize" required="true" requiredMessage="Ingrese el apellido">
+                                            <p:keyFilter regEx="/[0-9]/"/>
+                                        </p:inputText>
+
+                                    </h:panelGrid>
+                                </h:form>
+
+                                <p:commandButton value="Guardar" actionListener="#{facturaC.guardar()}" update="formFac"
+                                                 oncomplete="if(args &amp;&amp; !args.validationFailed)PF('formFac').hide()"/>
+                                <p:commandButton value="Detalle" oncomplete="PF('formDet').show();"/> 
+                            </p:dialog>
+                        </h:form>
+                    </div>
+                </h:panelGrid>
+            </p:tab>
+        </p:tabView>
+    </ui:define>
+</ui:composition>
